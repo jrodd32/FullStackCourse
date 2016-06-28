@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Week 3 - Part 4 - Jerrod Long</title>
+	<style>
+		img,
+		div {
+			position: absolute;
+		}
+
+		div {
+			height: 500px;
+			width: 500px;
+		}
+
+		#rightSide {
+			border-left: 1px solid black;
+			left: 500px;
+		}
+
+		#level {
+			height: 100px;
+			right: 200px;
+			top: 0;
+			width: 100px;
+		}
+
+	</style>
+</head>
+<body onload="generateFaces()">
+	<h1>Javascript matching game</h1>
+	<p>Click on the extra smiley face on the left side.</p>
+	<div id="leftSide"></div>
+	<div id="rightSide"></div>
+	<div id="level">
+		<h2>Scoreboard:</h2>
+		Your level is: <span id="score"></span>
+	</div>
+	<script type="text/javascript">
+		var numberOfFaces = 5;
+		var leftSide = document.getElementById('leftSide');
+		var rightSide = document.getElementById('rightSide');
+		var maxTopPosition = leftSide.offsetHeight;
+		var maxLeftPosition = leftSide.offsetWidth;
+		var testImagePath = 'http://images.clipartpanda.com/laughing-smiley-face-gif-yellow-smiley-laughing.gif';
+		var theBody = document.getElementsByTagName('body')[0];
+		var level = 0;
+		var scoreBoard = document.getElementById('score');
+
+		function generateFaces (faces = 5) {
+			var counter = 0;
+			level++;
+			scoreBoard.innerHTML = level;
+			console.log('Max Faces: ' + numberOfFaces);
+			 while (counter < numberOfFaces) {
+			 	console.log('Pass #: ' + counter);
+			 	var smileyFace = document.createElement('img');
+					// smileyFace.setAttribute('src', 'smile.png');
+					smileyFace.setAttribute('src', testImagePath);
+				var leftPosition = getLeftPosition(smileyFace);
+				var topPosition = getTopPosition(smileyFace);
+				// console.log('left position: ' + leftPosition);
+				// console.log('top position: ' + topPosition);
+				
+				smileyFace.style.left = leftPosition;		
+				smileyFace.style.top = topPosition;
+
+				leftSide.appendChild(smileyFace);
+				counter++;
+			}
+
+			var leftSideImages = leftSide.cloneNode(true);
+
+				leftSideImages.removeChild(leftSideImages.lastChild);
+
+			rightSide.appendChild(leftSideImages);
+
+			// Bind End Game Event
+			theBody.onclick = function endGame (event) {
+				event.stopPropagation();
+				alert("Game Over. Refresh to play again.");
+				theBody.onclick = null;
+				leftSide.lastChild.onclick = null;
+			};
+
+			// Bind click event to the last child in the leftSide DOM tree
+			leftSide.lastChild.onclick = function nextLevel (event) {
+				event.stopPropagation();
+				numberOfFaces += 5;
+				// delete child nodes
+				while (leftSide.firstChild) {
+					leftSide.removeChild(leftSide.firstChild);
+				}
+
+				while (rightSide.firstChild) {
+					rightSide.removeChild(rightSide.firstChild);
+				}
+				generateFaces(numberOfFaces);
+			};
+		}
+
+		function getLeftPosition(picture) {
+			var min = picture.naturalWidth;
+			var max = maxLeftPosition - min * 2;
+			return Math.floor(Math.random() * (max - min + 1)) + 'px';
+		}
+
+		function getTopPosition(picture) {
+			var min = picture.naturalHeight;
+			var max = maxTopPosition - min * 2;
+			return Math.floor(Math.random() * (max - min + 1))  + 'px';
+		}
+	</script>
+</body>
+</html>
