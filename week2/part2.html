@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Week2 - Part 2 - Jerrod Long</title>
+</head>
+<body onload="do_game()">
+    <script type="text/javascript">
+        Number.isInteger = Number.isInteger || function(value) {
+              return typeof value === "number" &&
+                isFinite(value) &&
+                Math.floor(value) === value;
+            };
+        var colorOptions = [
+            'Aqua',
+            'Blue',
+            'CornflowerBlue',
+            'Cyan',
+            'DarkSlateBlue',
+            'DodgerBlue',
+            'LightSkyBlue',
+            'MediumBlue',
+            'MidnightBlue',
+            'RoyalBlue',
+            'SlateBlue',
+            'SteelBlue'
+        ];
+        var correct = false;
+        var guessCount = 0;
+        var max = colorOptions.length;
+        var selectedColorPosition = Math.floor(Math.random() * max);
+        var backgroundColor = colorOptions[selectedColorPosition];
+        function do_game() {
+            alert("Your target color is: " + backgroundColor);
+            while (!correct) {
+                guessCount++;
+                var guessInput = prompt("I'm thinking of a color. Can you guess it? Your options are: Aqua, Blue, CornflowerBlue, Cyan, DarkSlateBlue, DodgerBlue, LightSkyBlue, MediumBlue, MidnightBlue, RoyalBlue, SlateBlue, SteelBlue.");
+                var guessArrayPosition = validate_guess(guessInput, colorOptions);
+                if (guessArrayPosition !== false) {
+                    correct = check_guess(guessArrayPosition);
+                } else {
+                    alert("I do not recognize that color.");
+                }
+            }
+        }
+
+        function validate_guess(guess, options) {
+            for (var i = options.length - 1; i >= 0; i--) {
+                console.log(guess + options[i]);
+
+                if (guess === options[i]) {
+                    return i;
+                }
+            }
+
+            return false;
+        }
+
+        function check_guess(guessPosition) {
+            if (guessPosition === selectedColorPosition) {
+                color_background(backgroundColor);
+                alert("Yay! You won. It only took you " + guessCount + " guesses.");
+                return true;
+            }
+
+            if (guessPosition < selectedColorPosition) {
+                alert("Your guess is alphabetically lower.");
+            }
+
+            if (guessPosition > selectedColorPosition) {
+                alert("Your guess is alphabetically greater.");
+            }
+        }
+
+        function color_background(color) {
+            document.body.style.background = color;
+        }
+    </script>
+</body>
+</html>

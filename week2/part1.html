@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Week2 - Part 1 - Jerrod Long</title>
+</head>
+<body onload="do_game()">
+    <script type="text/javascript">
+        function do_game() {
+            var colorOptions = [
+                'Aqua',
+                'Blue',
+                'CornflowerBlue',
+                'Cyan',
+                'DarkSlateBlue',
+                'DodgerBlue',
+                'LightSkyBlue',
+                'MediumBlue',
+                'MidnightBlue',
+                'RoyalBlue',
+                'SlateBlue',
+                'SteelBlue'
+            ];
+            var correct = false;
+            var max = colorOptions.length;
+            var selectedColorPosition = Math.floor(Math.random() * max);
+            var targetColor = colorOptions[selectedColorPosition];
+
+            while (!correct) {
+                alert("Your target color is: " + targetColor);
+                var guessString = prompt("I'm thinking of a color. Can you guess it? Your options are: Aqua, Blue, CornflowerBlue, Cyan, DarkSlateBlue, DodgerBlue, LightSkyBlue, MediumBlue,MidnightBlue, RoyalBlue, SlateBlue, SteelBlue.");
+
+                if (guessString === targetColor) {
+                    correct = true;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
